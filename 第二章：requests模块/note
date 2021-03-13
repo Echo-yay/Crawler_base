@@ -1,0 +1,51 @@
+requests模块
+    -urllib模块（古老，复杂）
+    -requests模块（用法简洁高效）
+
+    概念
+        python中原生的一款基于网络请求的模块
+    特点
+        功能强大，简单便捷，效率极高
+    作用
+        模拟浏览器发请求
+
+如何使用（requests模块的编码流程）
+    -指定url（网址）
+    -发起请求（录入url只能发get/使用requests既可以是get，也可以是post）
+    -获取响应数据
+    -持久化存储（响应数据）
+
+环境安装
+pip install requests
+
+编码实战：
+    -需求：
+        爬取搜狗首页的页面数据requests_1
+
+实战巩固：
+    -需求：爬取搜狗指定词条对应的搜索结果页面（简易网页采集器）requests_2
+        -UA检测
+        -UA伪装
+        -请求参数处理
+    -需求：破解百度翻译requests_3
+        -post请求（携带参数）
+        -响应数据是一组json数据
+        -Ajax请求
+    -需求：爬取豆瓣电影分类榜 http://movie.douban.com/ 中的电影详细数据requests_5
+    -需求：爬取肯德基餐厅查询 http:/www.kfc.com.cn/kfccda/index.aspx 中指定地点的餐厅数requests_6
+    -需求：爬取国家药品监督管理总局中基于中华人民共和国化妆品生产许可证相关详情数据requests_7
+        -首页中对应的企业信息是由Ajax请求到的
+
+        通过对详情页url的观察：
+            http://scxk.nmpa.gov.cn:81/xk/itownet/portal/dzpz.jsp?id=ed59438f34ae47e794f4c7ee5137c1f7
+            http://scxk.nmpa.gov.cn:81/xk/itownet/portal/dzpz.jsp?id=0a8d81ba1ed84d9482a4aaf3083b9828
+            -url的用域名都是一样的，只有携带的参数不同
+            -id值可以从首页对应的Ajax请求到的json串获取
+            -域名和id值拼接处完整的企业详情页url
+        详情页的信息也是动态加载出来的
+            确认是Ajax的请求
+            http://scxk.nmpa.gov.cn:81/xk/itownet/portalAction.do?method=getXkzsList
+            http://scxk.nmpa.gov.cn:81/xk/itownet/portalAction.do?method=getXkzsById
+            观察后发现：
+                所有的post请求的url是相同的，只有id不同
+                若可以批量获取多家企业的id后，就可以将id与url形成一个完整的详情页数据的Ajax请求的url

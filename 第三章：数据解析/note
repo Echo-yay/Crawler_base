@@ -1,0 +1,74 @@
+聚焦爬虫：爬取页面中指定的内容。
+    -编码流程
+        -指定URL
+        -发起请求
+        -获取相应
+        -数据解析
+        -持久化存储
+
+数据解析分类
+    -正则
+    -bs4
+    -xpath(***)
+
+数据解析原理概述:
+    -解析的局部的文本内容都会在标签之间或者标签对应的属性中进行存储
+    -1.进行指定标签的定位
+    -2.标签或者标签对应的属性中存储的数据值进行提取（解析）
+
+正则解析：
+
+<div class="thumb">
+
+<a href="/article/124140948" target="_blank">
+<img src="//pic.qiushibaike.com/system/pictures/12414/124140948/medium/KRSVIQ3D9CL5KQEP.jpg" alt="糗事#124140948" class="illustration" width="100%" height="auto">
+</a>
+</div>
+
+ex = '<div class="thumb">.*?<img src="(.*?)" alt.*?</div>'
+ex ='<img src="(.*?)" alt=".*?" class=.*? width=.*? height=.*?>'
+
+
+bs4进行数据解析（只能运用在python中）
+    -原理：
+        -1.标签定位
+        -2.提取标签、标签属性中存储的数据值
+    -bs4实现数据解析的原理：
+        -1.实例化一个BeautifulSoup对象，并将页面源码数据加载到该对象中
+        -2.通过调用BeautifulSoup对象中相关的属性或方法进行标签定位和数据提取
+    -进行环境安装
+        -pip install bs4
+        -pip install lxml
+            -下载环境更改
+                在pip文件夹下里面新建一个文件叫做pip.ini，内容写如下即可：
+                [global]
+                timeout = 6000
+                index_url = https://mirrors.aliyun.com/pypi/simple/trusted-host = mirrors.aliyun.com
+    -如何实例化BeautifulSoup
+        -from bs4 import BeautifulSoup
+        -对象实例化：
+            -1.将本地的HTML文档中的数据加载到该对象中
+                fp = open('./test.html','r',encoding='utf-8')
+                soup = BeautifulSoup(fp,'lxml')
+            -2.将互联网上获取的页面源码加载到该对象中(***)
+                page_text = requests.get(url=url,data=data,headers=header).text
+                soup = BeautifulSoup(page_text,'lxml')
+        -提供的用于数据解析的方法和属性：
+            -soup.tagName：返回的是文档中第一次出现的该标签
+            -soup.find():
+                -soup.find('tagName'):同soup.tagName
+                -属性定位:
+                    soup.find('tadName',class_/id/attr='value')
+                -soup.find_all(tagName)：返回所有的该标签，返回值类型为列表
+            -select:
+                -select('某种选择器(id,class,标签...选择器)')，返回值类型是一个列表
+                -层级选择器：
+                    soup.select('.tang > ul > li > a')[0])：>表示的一个层级
+                    soup.select('.tang >  ul a')： 空格表示多个层级
+            -获取标签之间的文本数据：
+                -soup.a.text/string/get_text()
+                -区别：
+                    text/get_text()：可以获取某一个标签所有的文本内容，即使不是该标签直系内容
+                    string：只可以获取该标签的直系文本内容
+            -获取标签中的属性值：
+                -soup.a['href']：定位到该标签然后获取属性值
