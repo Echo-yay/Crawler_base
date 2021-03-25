@@ -53,7 +53,7 @@ if __name__ == '__main__':
     #
     # print('爬取成功！')
 
-    '''解析一次得到所有城市和热门城市的a标签'''
+    '''解析一次得到所有城市和热门城市的a标签，使用|'''
 
     headers = {
         'User-Agent':'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Mobile Safari/537.36'
