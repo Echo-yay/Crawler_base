@@ -17,7 +17,13 @@
     -2.标签或者标签对应的属性中存储的数据值进行提取（解析）
 
 
-
+通用解决中文乱码的方法：
+    -手动设置响应数据的编码格式：
+        response = requests.get(url=url)
+        response.encoding = 'utf-8'
+        page_text = response.text
+    -乱码所对用的值单独操作：
+        img_name = img_name.encode('iso-8859-1').decode('gbk')
 
 
 
@@ -121,6 +127,3 @@ xpath解析：最常用且最便捷高效的一种解析方式。具有通用性
 
 
 
-
-
-<div tongji_tag="fcpc_ersflist_gzcount" class="property" data-v-94adac58="" data-v-bc00cb90="">
